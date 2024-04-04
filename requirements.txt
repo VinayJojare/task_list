@@ -3,5 +3,5 @@ djangorestframework==3.12.4
 mysqlclient==2.1.0
 Python==3.8.2
 python-decouple==3.8
-python-3.8.2
+
 
