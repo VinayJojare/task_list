@@ -1,4 +1,9 @@
 Django==3.2.9
 djangorestframework==3.12.4
 mysqlclient==2.1.0
+<<<<<<< HEAD
 Python 3.8.2
+=======
+
+
+>>>>>>> a47a38b8d3a0713b37fa3a558a2f0236f826b1fa
