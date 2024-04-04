@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="">
+
+  <style>
+    /* Body Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 4rem;
+      background-color: rgb(113, 101, 191);
+      box-shadow: 0 0 20px rgba(255, 192, 203, 0.5);
+      color: white;
+      padding: 20px;
+    }
+    
+    /* Table Styles */
+    .task-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+.task-table th, .task-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+  color: white;
+}
+
+.task-table th {
+  background-color: white;
+  color: rgb(113, 101, 191);
+}
+
+/* Add border-radius for curved shape */
+
+    
+    /* Completed Task Styles */
+    .completed {
+      text-decoration: line-through;
+      color:white;
+    }
+    
+    /* Task Form Styles */
+    .task-form {
+      margin-top: 2rem;
+      display: flex;
+      align-items: center;
+      
+    }
+    
+    .task-form input[type="text"] {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4cm;
+    }
+
+    .complete-button {
+  background-color: #7fe61f;
+  color: white;
+  border: none;
+  border-radius: 2cm;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.complete-button:hover {
+  background-color: #1bce3f;
+}
+
+
+.delete-button {
+  background-color: #f33a3a;
+  color: white;
+  border: none;
+  border-radius: 2cm;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #c81a1a;
+}
+
+   
+.reset-button{
+    background-color: red;
+    color:white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 40px;
+}
+
+.reset-button:hover {
+  background-color: #8a0404;
+}
+    
+    .task-form button[type="submit"] {
+      padding: 20px 20px;
+      background-color: #00ff08;
+      color:rgb(99, 81, 215);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .task-form button[type="submit"]:hover {
+      background-color: #feffff;
+    }
+  </style>
+</head>
+<body>
+  <h1>Task Manager</h1>
+
+  
+  <div class="task-list">
+    <table class="task-table">
+      <thead>
+        <tr>
+          <th>Task Name</th>
+          <th>Description</th>
+          <th>Created At</th>
+          <th>Update</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        {% if task.completed == 0 %}
+        <tr>
+          <td>{{ task.task_name }}</td>
+          <td>{{ task.description }}</td>
+          <td>{{ task.created_at }}</td>
+          <td>
+            <form action="{% url 'updated' task.id %}" method="POST"> <!-- Form for completing the task -->
+              {% csrf_token %}
+              <button type="submit" class="complete-button">Complete</button>
+            </form>
+          </td>
+
+          <td>
+            <form action="{% url 'delete' task.id %}" method="POST"> <!-- Form for completing the task -->
+              {% csrf_token %}
+              <button type="submit" class="delete-button">Delete</button>
+            </form>
+          </td>
+          
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+    
+    <ul class="completed-tasks">
+      {% for task in tasks %}
+      {% if task.completed %}
+      <li class="completed">{{ task.task_name }}</li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+
+  <form class="task-form" method="POST">
+    {% csrf_token %}
+    <input type="text" name="task_name" id="taskName" placeholder="Task Name">
+    <input type="text" name="description" id="description" placeholder="Description">
+    <button type="submit" style="background-color: #65d768; color: white;">Add Task</button>
+  </form>
+
+   <br>
+  <form action="{% url 'reset'  %}" method="POST"> <!-- Form for completing the task -->
+    {% csrf_token %}
+    <button type="submit" class="reset-button">Reset</button>
+</form>
+</body>
+</html>
